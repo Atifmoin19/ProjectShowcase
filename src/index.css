@@ -1,0 +1,45 @@
+.hoverNav {
+  position: relative;
+}
+.hoverNav::after {
+  width: 0%;
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  transform-origin: center;
+  transform: translate(-50%, 0);
+
+  background: #000;
+  height: 1px;
+  content: "";
+  transition: width 0.2s ease-in;
+}
+.hoverNav:hover::after {
+  width: 100%;
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+
+  transform: translate(-50%, 0);
+  background: #000;
+  height: 1px;
+  content: "";
+  transition: width 0.2s ease-in;
+}
+
+.conic {
+  width: 100px;
+  height: 300px;
+  transform-origin: bottom;
+  background: linear-gradient(to right, rgba(255, 0, 0, 0), rgba(255, 0, 0, 1));
+  animation: animate 1.3s both infinite;
+}
+
+@keyframes animate {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}

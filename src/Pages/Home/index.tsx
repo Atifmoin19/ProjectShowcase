@@ -8,13 +8,25 @@ import {
   useScroll,
   useTransform,
 } from "framer-motion";
+import { Canvas } from "@react-three/fiber";
+import { OrbitControls } from "@react-three/drei";
+import Cylender from "./Cylender";
+import {
+  Bloom,
+  EffectComposer,
+  ToneMapping,
+} from "@react-three/postprocessing";
 
 const Home = () => {
   const ref = useRef(null);
   const ref2 = useRef(null);
   const ref3 = useRef(null);
+  const containerRef = useRef(null);
 
   const { scrollYProgress } = useScroll({ target: ref });
+  const { scrollYProgress: ContainerRefScrollY } = useScroll({
+    target: containerRef,
+  });
   const { scrollYProgress: scrollYProgress2 } = useScroll({ target: ref2 });
   const { scrollYProgress: scrollYProgress3 } = useScroll({ target: ref3 });
 
@@ -63,6 +75,22 @@ const Home = () => {
     ["360deg", "0deg"]
   );
 
+  const ScrollYProgressContainer = useTransform(
+    ContainerRefScrollY,
+    // Map x from these values:
+    [0.1, 0.3],
+    // Into these values:
+    ["0%", "120%"]
+  );
+
+  const ScrollYProgressContainerNegetive = useTransform(
+    ContainerRefScrollY,
+    // Map x from these values:
+    [0.1, 0.3],
+    // Into these values:
+    ["0%", "-120%"]
+  );
+
   return (
     <>
       <NavBar />
@@ -96,14 +124,13 @@ const Home = () => {
           <Flex
             w={"100%"}
             minH={"340vh"}
-            bg={"red"}
+            bg={"#fff"}
             shadow={"0 -10px 30px 1px rgba(0,0,0,0.2)"}
             roundedTop={"3xl"}
             direction={"column"}
-            p={"1rem"}
             color={"#fff"}
           >
-            <Flex
+            {/* <Flex
               w={"100%"}
               height={"100vh"}
               position={"sticky"}
@@ -176,11 +203,117 @@ const Home = () => {
                 height={"70%"}
                 bg={"#fff"}
               ></Flex>
+            </Flex> */}
+
+            <Flex
+              w={"100%"}
+              ref={containerRef}
+              // overflow={"hidden"}
+              minH={"600vh"}
+              justifyContent={"start"}
+              alignItems={"start"}
+              color={"#000"}
+              roundedTop={"3xl"}
+              direction={"column"}
+              bg="#000000f0"
+            >
+              <motion.div
+                style={{
+                  width: "100%",
+                  height: "50vh",
+                  overflow: "hidden",
+                  top: 0,
+                  zIndex: 9999,
+                  position: "sticky",
+                  y: ScrollYProgressContainerNegetive,
+                }}
+              >
+                <Flex
+                  bg={"#fff"}
+                  w={"100%"}
+                  roundedTop={"3xl"}
+                  height={"100%"}
+                  shadow="0,0,0,rgba(0,0,0,0.3)"
+                  justifyContent={"center"}
+                  alignItems={"end"}
+                  fontSize={"9xl"}
+                >
+                  <Text mb={"-6rem"}>CONTAINER</Text>
+                </Flex>
+              </motion.div>
+              <motion.div
+                style={{
+                  zIndex: 9999,
+                  width: "100%",
+                  height: "50vh",
+                  overflow: "hidden",
+                  top: "50vh",
+                  position: "sticky",
+                  y: ScrollYProgressContainer,
+                }}
+              >
+                <Flex
+                  bg={"#fff"}
+                  w={"100%"}
+                  height={"100%"}
+                  justifyContent={"center"}
+                  alignItems={"start"}
+                  fontSize={"9xl"}
+                >
+                  <Text mt={"-6rem"}>CONTAINER</Text>
+                </Flex>
+              </motion.div>
+              <Flex
+                w={"100%"}
+                height={"100vh"}
+                justifyContent={"space-between"}
+                mt={"40vh"}
+                alignItems={"center"}
+              >
+                <Flex
+                  w={"40%"}
+                  height={"100%"}
+                  justifyContent={"center"}
+                  color={"#fff"}
+                  p={"4rem"}
+                  alignItems={"start"}
+                  direction={"column"}
+                >
+                  <Text fontSize={"4xl"}>Title 2</Text>
+                  <Text>
+                    {" "}
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo
+                    libero quis nam nostrum, totam fuga impedit optio suscipit
+                    illo, eos inventore unde ratione maiores itaque, similique
+                    ea ipsum debitis recusandae ipsa iure distinctio corrupti
+                    sunt? Veniam mollitia eaque consequatur eos aspernatur
+                    ipsum, assumenda laboriosam minus vitae magnam tempora harum
+                    beatae.{" "}
+                  </Text>
+                </Flex>
+                <Flex w={"60%"} height={"100%"}>
+                  <Canvas camera={{ fov: 45 }}>
+                    <ambientLight />
+
+                    {/* <OrbitControls /> */}
+                    <EffectComposer>
+                      <Bloom
+                        mipmapBlur
+                        intensity={10}
+                        luminanceThreshold={0.18}
+                        luminanceSmoothing={0}
+                      />
+                      <ToneMapping adaptive />
+                    </EffectComposer>
+                    <Cylender />
+                  </Canvas>
+                </Flex>
+              </Flex>
             </Flex>
           </Flex>
         </motion.div>
 
-        <Grid
+        {/* <Grid
           w={"100%"}
           ref={ref2}
           gridTemplateColumns={"1fr 1fr"}
@@ -276,8 +409,8 @@ const Home = () => {
               ></Flex>
             </motion.div>
           </Flex>
-        </Grid>
-        <Grid
+        </Grid> */}
+        {/* <Grid
           w={"100%"}
           ref={ref3}
           gridTemplateColumns={"1fr 1fr"}
@@ -320,10 +453,10 @@ const Home = () => {
               corporis natus!
             </Text>
           </Flex>
-        </Grid>
+        </Grid> */}
       </Flex>
 
-      <Flex
+      {/* <Flex
         w={"100%"}
         height={"100vh"}
         bg={"#fff"}
@@ -356,7 +489,7 @@ const Home = () => {
             bg={"green"}
           ></Flex>
         </Flex>
-      </Flex>
+      </Flex> */}
     </>
   );
 };

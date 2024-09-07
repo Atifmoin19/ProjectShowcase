@@ -13,8 +13,8 @@ const NavBar = () => {
     <Flex
       w={"100%"}
       backdropFilter={"blur(10px)"}
-      bg={"#ffffff80"}
-      zIndex={9999}
+      bg={"#ffffff"}
+      zIndex={99999999}
       position={"fixed"}
       top={0}
       left={0}
